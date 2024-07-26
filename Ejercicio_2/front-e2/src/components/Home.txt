@@ -1,0 +1,24 @@
+import React from "react";
+import { Links } from "./Links.tsx";
+import { LinksForm } from "./LinksForm.tsx";
+import { db, collection, addDoc } from "../firebaseConfig.ts";
+const Home = () => {
+  const palabra: string = "Login!";
+
+  const addOrEditLink = async (linkObjet) => {
+    try {
+      await addDoc(collection(db, "links"), linkObjet);
+    } catch (error) {
+      console.error("Error al agregar documento: ", error);
+    }
+  };
+
+  return (
+    <>
+      <h1>{palabra}</h1>
+      <LinksForm addOrEditLink={addOrEditLink} />
+      <Links />
+    </>
+  );
+};
+export default Home;

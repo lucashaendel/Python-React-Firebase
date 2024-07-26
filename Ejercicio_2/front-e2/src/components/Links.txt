@@ -1,0 +1,42 @@
+import React, { useEffect, useState } from "react";
+import { deleteLink, getAllLinks, editLinks } from "../helpers/crud.ts";
+
+export const Links = () => {
+  const [links, setLinks] = useState<any>([]);
+  useEffect(() => {
+    getAllLinks(setLinks);
+  }, []);
+
+  const handleDelete = async (linkId) => {
+    const deleted = await deleteLink(linkId);
+    if (deleted) {
+      setLinks(links.filter((link) => link.id !== linkId));
+    }
+  };
+
+  const handleEdit = (linkId) => {
+    editLinks(linkId);
+  };
+
+  console.log(links);
+  return (
+    <div>
+      <h2>Links</h2>
+      <ol>
+        <hr />
+        <hr />
+        {links.map((link) => (
+          <li key={link.id}>
+            <p>Nombre: {link.name}</p>
+            <p>URL: {link.url}</p>
+            <p>Descripción: {link.description}</p>
+            <button onClick={() => handleDelete(link.id)}>Eliminar</button>
+            <button onClick={() => handleEdit(link.id)}>Editar</button>
+            <hr />
+            <hr />
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
+};

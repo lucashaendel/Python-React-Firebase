@@ -1,0 +1,56 @@
+import React, { useState } from "react";
+
+export const LinksForm = ({ addOrEditLink }) => {
+  const initialFormValues = {
+    url: "",
+    name: "",
+    description: "",
+  };
+
+  const [values, setValues] = useState(initialFormValues);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setValues({ ...values, [name]: value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    addOrEditLink(values);
+    setValues(initialFormValues); // Limpiar el formulario después de enviar
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <div>
+        <input
+          type="text"
+          placeholder="url"
+          name="url"
+          value={values.url}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div>
+        <input
+          type="text"
+          placeholder="web name"
+          name="name"
+          value={values.name}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div>
+        <textarea
+          name="description"
+          rows={3}
+          placeholder="ingrese texto"
+          value={values.description}
+          onChange={handleInputChange}
+        ></textarea>
+      </div>
+
+      <button type="submit">Save</button>
+    </form>
+  );
+};
